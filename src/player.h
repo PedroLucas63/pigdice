@@ -1,7 +1,7 @@
 /**
  * @file player.h
  * @author Pedro Lucas (pedrolucas.jsrn@gmail.com)
- * @brief 
+ * @brief Definition of the player class with its attributes and methods.
  * @version 0.1
  * @date 2023-08-30
  * 
@@ -9,45 +9,56 @@
  * 
  */
 
-#include <iostream>
-#include "utils.h"
-
 #ifndef PLAYER_H
 #define PLAYER_H
 
-// TODO: Comment the code.
+#include "utils.h"
 
-#define DEFAULT_NAME "Jack"
-#define DEFAULT_SCORE 0
-#define DEFAULT_VICTORIES 0
-#define DEFAULT_DEFEATS 0
-#define DEFAULT_MAXIMUM_SCORE 0
+#define DEFAULT_NAME "Jack" /**< Default name for the player. */
+#define DEFAULT_SCORE 0 /**< Default score for the player. */
+#define DEFAULT_VICTORIES 0 // Default victories for the player. */
+#define DEFAULT_DEFEATS 0 /**< Default defeats for the player. */
+#define DEFAULT_HIGH_SCORE 0 // Player default high score. */
+#define MINIMUM_SCORE 0 /**< Minimum score in play. */
 
+// Player class.
 class Player {
 public:
-    Player();
-    Player(std::string name_);
+    // Constructor with name.
+    Player(std::string name_ = DEFAULT_NAME);
+    // Destructor.
     ~Player();
 
+    // Get player name.
     std::string getName() const;
+    // Get player score.
     int getScore() const;
+    // Get number of wins from the player.
     int getVictories() const;
-    int getVictories() const;
-    int getMaximumScore() const;
+    // Get the player's number of defeats
+    int getDefeats() const;
+    // Get the player's high score.
+    int getHighScore() const;
 
+    // Set player name.
     void setName(std::string name_);
+    // Add score.
     void addScore(int score_);
+    // Add victory.
     void addVictory();
+    ///Add defeat.
     void addDefeat();
 private:
-    std::string name;
-    int score;
-    int victories;
-    int defeats;
-    int maximum_score;
+    std::string name; /**< Player name */
+    int score; /**< Player score */
+    int victories; /**< Number of wins */
+    int defeats; /**< Number of defeats */
+    int high_score; /**< Player high score */
 
+    // Clear score.
     void clearScore();
-    void checkMaximumScore();
+    // Check high score.
+    void checkHighScore();
 };
 
 #endif // PLAYER_H

@@ -1,7 +1,7 @@
 /**
- * @file dice.cpp
+ * @file dice.h
  * @author Pedro Lucas (pedrolucas.jsrn@gmail.com)
- * @brief 
+ * @brief Definition of the dice class with its attributes and methods.
  * @version 0.1
  * @date 2023-08-30
  * 
@@ -12,23 +12,29 @@
 #ifndef DICE_H
 #define DICE_H
 
-// TODO: Comment the code.
+#include <string>
 
-#define DEFAULT_SIDES 6
-#define INITIAL 1
+#define SIDES 6 /**< Numbers of sides. */
+#define INITIAL 1 /**< Initial number. */
 
+// Dice class.
 class Dice {
 public:
+   // Contructor dice.
    Dice();
+   // Destructor dice.
    ~Dice();
 
+   // Get the random number.
    int getNumber() const;
-   char getSymbol() const;
+   // Get the random number symbol.
+   std::string getSymbol() const;
 
+   // Roll the dice.
    void roll();
 private:
-   int sides;
-   int number;
+   int sides; /**< Sides of the dice */
+   int number; /**< Random number played*/
 };
 
 #endif // DICE_H
