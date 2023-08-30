@@ -16,7 +16,9 @@ set( CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} ${GCC_COMPILE_FLAGS} ${PREPROCESSING_F
 add_executable(pig_dice main.cpp
                         pigdice_game.cpp
                         player.cpp
-                        dice.cpp)
+                        dice.cpp
+                        utils.cpp
+                        ai_player.cpp)
 
 #define C++17 as the standard.
 target_compile_features( pig_dice PUBLIC cxx_std_17 )
