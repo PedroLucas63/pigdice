@@ -33,7 +33,8 @@
 
 #include "pigdice_game.h"
 
-int main(void){
+int main(){
+    /*
     GameController game;
     // Set up simulation.
     game.initialize();
@@ -44,4 +45,5 @@ int main(void){
         game.render();
     }
     return EXIT_SUCCESS;
+    */
 }
