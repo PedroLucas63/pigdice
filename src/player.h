@@ -1,35 +1,53 @@
-#ifndef _PLAYER_H_
-#define _PLAYER_H_
+/**
+ * @file player.h
+ * @author Pedro Lucas (pedrolucas.jsrn@gmail.com)
+ * @brief 
+ * @version 0.1
+ * @date 2023-08-30
+ * 
+ * @copyright Copyright (c) 2023
+ * 
+ */
 
-#include <cstddef>
-#include <string>
-#include <vector>
-#include <string_view>
 #include <iostream>
+#include "utils.h"
 
-#include "pigdice_common.h"
+#ifndef PLAYER_H
+#define PLAYER_H
 
-/// Representing a single player.
+// TODO: Comment the code.
+
+#define DEFAULT_NAME "Jack"
+#define DEFAULT_SCORE 0
+#define DEFAULT_VICTORIES 0
+#define DEFAULT_DEFEATS 0
+#define DEFAULT_MAXIMUM_SCORE 0
+
 class Player {
-    private:
-        std::string m_name; //!< The player's name
-        std::vector<TurnInfo> m_turns_log; //!< List of turn total the player received in the match.
-                                           //
-    public:
-        Player(std::string n) : m_name{n}
-        {/*empty*/}
-        /// Dtro
-        ~Player() = default;
-        /// Returns the player decision (action).
-        action_e next_action();
-        /// Returns the player's name
-        std::string name(void) const;
-        /// Returns the player's log of turn total s/he's won so far in the match.
-        std::vector<TurnInfo> get_turns_log(void) const;
-        /// Add a turn value to the player's log.
-        void add_turn_total(const TurnInfo&);
-        /// Return the player's current score.
-        ScoreType get_score(void) const;
+public:
+    Player();
+    Player(std::string name_);
+    ~Player();
+
+    std::string getName() const;
+    int getScore() const;
+    int getVictories() const;
+    int getVictories() const;
+    int getMaximumScore() const;
+
+    void setName(std::string name_);
+    void addScore(int score_);
+    void addVictory();
+    void addDefeat();
+private:
+    std::string name;
+    int score;
+    int victories;
+    int defeats;
+    int maximum_score;
+
+    void clearScore();
+    void checkMaximumScore();
 };
 
-#endif
+#endif // PLAYER_H
