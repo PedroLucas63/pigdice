@@ -9,7 +9,7 @@
  * 
  */
 
-#include "utils.h" // rand, leftTrim
+#include "utils.h"
 
 namespace utils {
    /**
@@ -21,7 +21,7 @@ namespace utils {
     * @param init First number (included)
     * @return A randomizer number.
     */
-   int rand(int end, int init = 0) {
+   int rand(int end, int init) {
       std::random_device device;
       std::mt19937 generator(device());
 
@@ -36,7 +36,7 @@ namespace utils {
     * @param str String to cut.
     * @param t Target to search.
     */
-   void leftTrim(std::string& str, std::string const t = " \t\n\r\f\v") {
+   void leftTrim(std::string& str, std::string const t) {
       str.erase(0, str.find_first_not_of(t));
    }
 }
