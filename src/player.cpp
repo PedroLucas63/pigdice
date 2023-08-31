@@ -16,8 +16,9 @@
  * 
  * @param name_ Player name.
  */
-Player::Player(std::string name_) {
+Player::Player(std::string name_, PlayerType type_) {
     setName(name_);
+    type = type_;
     score = DEFAULT_SCORE;
     victories = DEFAULT_VICTORIES;
     defeats = DEFAULT_DEFEATS;
@@ -37,6 +38,15 @@ Player::~Player() { }
  */
 std::string Player::getName() const {
     return name;
+}
+
+/**
+ * @brief Get player type.
+ * 
+ * @return The type. 
+ */
+PlayerType Player::getType() const {
+    return type;
 }
 
 /**

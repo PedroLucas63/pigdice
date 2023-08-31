@@ -21,16 +21,27 @@
 #define DEFAULT_HIGH_SCORE 0 // Player default high score. */
 #define MINIMUM_SCORE 0 /**< Minimum score in play. */
 
+/**
+ * @brief Player type.
+ * 
+ */
+enum PlayerType {
+    Human,
+    Machine,
+};
+
 // Player class.
 class Player {
 public:
-    // Constructor with name.
-    Player(std::string name_ = DEFAULT_NAME);
+    // Constructor with name and type.
+    Player(std::string name_ = DEFAULT_NAME, PlayerType type_ = Machine);
     // Destructor.
     ~Player();
 
     // Get player name.
     std::string getName() const;
+    // Get player type.
+    PlayerType getType() const;
     // Get player turn score.
     int getTurnScore() const;
     // Get player score.
@@ -54,6 +65,7 @@ public:
     void addDefeat();
 private:
     std::string name; /**< Player name */
+    PlayerType type; /**< Player type */
     int turn_score; /**< Player turn score */
     int score; /**< Player score */
     int victories; /**< Number of wins */
