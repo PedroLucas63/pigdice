@@ -15,6 +15,7 @@
 #define AI_PLAYER_H
 
 #define DANGER_ZONE 71 /**< Danger zone */
+#define EXTREME_DANGER_ZONE 88 /**< Extreme danger zone */
 #define DEFAULT_SCORE_FETCHED 21 /**< Standard score fetched */
 
 // Decides whether the player should play
