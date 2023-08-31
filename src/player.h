@@ -31,6 +31,8 @@ public:
 
     // Get player name.
     std::string getName() const;
+    // Get player turn score.
+    int getTurnScore() const;
     // Get player score.
     int getScore() const;
     // Get number of wins from the player.
@@ -42,19 +44,24 @@ public:
 
     // Set player name.
     void setName(std::string name_);
+    // Add turn score.
+    void addTurnScore(int turn_score_);
     // Add score.
-    void addScore(int score_);
+    void addScore();
     // Add victory.
     void addVictory();
     ///Add defeat.
     void addDefeat();
 private:
     std::string name; /**< Player name */
+    int turn_score; /**< Player turn score */
     int score; /**< Player score */
     int victories; /**< Number of wins */
     int defeats; /**< Number of defeats */
     int high_score; /**< Player high score */
 
+    // Clear turn score.
+    void clearTurnScore();
     // Clear score.
     void clearScore();
     // Check high score.

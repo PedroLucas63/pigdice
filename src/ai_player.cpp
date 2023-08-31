@@ -27,7 +27,9 @@ bool decideRoll(Player const& player, Player const& adversary) {
    int difference { adversary.getScore() - player.getScore() };
    int max_value { DEFAULT_SCORE_FETCHED + difference / 8 };
 
-   if (adversary.getScore() >= DANGER_ZONE || player.getScore() < max_value) {
+   if (adversary.getScore() >= DANGER_ZONE) {
+      return true;
+   } else if (player.getTurnScore() < max_value) {
       return true;
    }
 

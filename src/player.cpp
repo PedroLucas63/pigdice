@@ -40,6 +40,15 @@ std::string Player::getName() const {
 }
 
 /**
+ * @brief Get player turn score.
+ * 
+ * @return The turn score. 
+ */
+int Player::getTurnScore() const {
+    return turn_score;
+}
+
+/**
  * @brief Get player score.
  * 
  * @return The score. 
@@ -91,12 +100,22 @@ void Player::setName(std::string name_) {
 }
 
 /**
+ * @brief Add score to turn.
+ * 
+ * @param turn_score_ Additional turn score.
+ */
+void Player::addTurnScore(int turn_score_) {
+    turn_score += turn_score_ > MINIMUM_SCORE ? turn_score_ : MINIMUM_SCORE;
+}
+
+/**
  * @brief Add score to total.
  * 
  * @param score_ Additional score.
  */
-void Player::addScore(int score_) {
-    score = score_ < MINIMUM_SCORE ? MINIMUM_SCORE : score_;
+void Player::addScore() {
+    score += turn_score;
+    clearTurnScore();
 }
 
 /**
@@ -118,6 +137,14 @@ void Player::addDefeat() {
 }
 
 /**
+ * @brief Clear turn score.
+ * 
+ */
+void Player::clearTurnScore() {
+    turn_score = DEFAULT_SCORE;
+}
+
+/**
  * @brief Clear score.
  * 
  */
@@ -134,5 +161,6 @@ void Player::checkHighScore() {
         high_score = score;
     }
 
+    clearTurnScore();
     clearScore();
 }
