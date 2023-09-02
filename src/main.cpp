@@ -32,18 +32,41 @@
  */
 
 #include "pigdice_game.h"
+#include <string>
 
-int main(){
-    /*
-    GameController game;
-    // Set up simulation.
-    game.initialize();
-    // The Game Loop (Architecture)
-    while(not game.game_over()){
-        game.process_events();
-        game.update();
-        game.render();
-    }
-    return EXIT_SUCCESS;
-    */
+#define ARGUMENTS_WITH_NAME 2 /**< Number of arguments if past name */
+#define NAME_INDEX 1          /**< Name position index */
+
+/**
+ * @brief Returns the name if it exists
+ *
+ * @param argc Arguments count
+ * @param argv Arguments values
+ * @return Name
+ */
+std::string processName(int argc, char *argv[]);
+
+int main(int argc, char *argv[]) {
+   GameController game;
+
+   game.initialize(processName(argc, argv));
+
+   while (!game.gameOver()) {
+      game.processEvents();
+      game.update();
+      game.render();
+   }
+
+   return EXIT_SUCCESS;
+}
+
+// Process name
+std::string processName(int argc, char *argv[]) {
+   std::string name;
+
+   if (argc == ARGUMENTS_WITH_NAME) {
+      name = argv[NAME_INDEX];
+   }
+
+   return name;
 }
