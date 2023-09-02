@@ -10,7 +10,6 @@
  */
 
 #include "dice.h"
-#include "utils.h"
 
 // Contructor dice
 Dice::Dice() {
