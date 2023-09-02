@@ -33,3 +33,6 @@
 build
 pig_dice
 .cache
+
+# Format
+/.clang-format
