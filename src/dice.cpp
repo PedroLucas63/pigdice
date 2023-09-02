@@ -2,53 +2,36 @@
  * @file dice.cpp
  * @author Pedro Lucas (pedrolucas.jsrn@gmail.com)
  * @brief Implementation of dice class methods.
- * @version 0.1
+ * @version 1.0
  * @date 2023-08-30
- * 
+ *
  * @copyright Copyright (c) 2023
- * 
+ *
  */
 
 #include "dice.h"
 #include "utils.h"
 
-/**
- * @brief Construct a new Dice object.
- * 
- */
-Dice::Dice() { 
+// Contructor dice
+Dice::Dice() {
    sides = SIDES;
    roll();
 }
 
-/**
- * @brief Destroy the Dice object.
- * 
- */
+// Destructor dice
 Dice::~Dice() { }
 
-/**
- * @brief Roll the dice.
- * 
- */
+// Roll the dice
 void Dice::roll() {
    number = utils::rand(sides, INITIAL);
 }
 
-/**
- * @brief Get the random number.
- * 
- * @return The number. 
- */
+// Get the random number
 int Dice::getNumber() const {
    return number;
 }
 
-/**
- * @brief Get the data symbol from the generated random number.
- * 
- * @return The symbol.
- */
+// Get the random number symbol
 std::string Dice::getSymbol() const {
    std::string dice;
 

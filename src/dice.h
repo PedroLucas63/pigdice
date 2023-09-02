@@ -2,11 +2,11 @@
  * @file dice.h
  * @author Pedro Lucas (pedrolucas.jsrn@gmail.com)
  * @brief Definition of the dice class with its attributes and methods.
- * @version 0.1
+ * @version 1.0
  * @date 2023-08-30
- * 
+ *
  * @copyright Copyright (c) 2023
- * 
+ *
  */
 
 #ifndef DICE_H
@@ -14,27 +14,49 @@
 
 #include <string>
 
-#define SIDES 6 /**< Numbers of sides. */
-#define INITIAL 1 /**< Initial number. */
+#define SIDES 6   /**< Numbers of sides */
+#define INITIAL 1 /**< Initial number */
 
-// Dice class.
+/**
+ * @brief Definition of dice class
+ *
+ */
 class Dice {
-public:
-   // Contructor dice.
+   /* Definition of attributes */
+   int sides;  /**< Sides of the dice */
+   int number; /**< Random number played */
+ public:
+   /**
+    * @brief Construct a new Dice object
+    *
+    */
    Dice();
-   // Destructor dice.
+
+   /**
+    * @brief Destroy the Dice object
+    *
+    */
    ~Dice();
 
-   // Get the random number.
-   int getNumber() const;
-   // Get the random number symbol.
-   std::string getSymbol() const;
-
-   // Roll the dice.
+   /**
+    * @brief Roll the dice
+    *
+    */
    void roll();
-private:
-   int sides; /**< Sides of the dice */
-   int number; /**< Random number played*/
+
+   /**
+    * @brief Get the random number
+    *
+    * @return The number.
+    */
+   int getNumber() const;
+
+   /**
+    * @brief Get the data symbol from the generated random number
+    *
+    * @return The symbol.
+    */
+   std::string getSymbol() const;
 };
 
 #endif // DICE_H
