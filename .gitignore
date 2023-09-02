@@ -36,3 +36,6 @@ pig_dice
 
 # Format
 /.clang-format
+
+# Docs
+docs/site
