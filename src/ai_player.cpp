@@ -10,7 +10,6 @@
  */
 
 #include "ai_player.h"
-#include "pigdice_game.h"
 
 // Decides whether the player should play
 bool decideRoll(Player const &player, Player const &adversary) {

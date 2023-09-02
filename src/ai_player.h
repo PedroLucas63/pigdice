@@ -9,10 +9,11 @@
  *
  */
 
-#include "player.h"
-
 #ifndef AI_PLAYER_H
 #define AI_PLAYER_H
+
+#include "player.h"
+#include "pigdice_game.h"
 
 #define DANGER_ZONE 71           /**< Danger zone */
 #define EXTREME_DANGER_ZONE 88   /**< Extreme danger zone */
