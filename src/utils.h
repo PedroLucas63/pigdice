@@ -33,8 +33,8 @@ namespace utils {
     *
     */
    struct RoundLog {
-      int score{0};
-      int turns{0};
+      int score { 0 };
+      int turns { 0 };
    };
 
    /**
