@@ -15,10 +15,28 @@
 #include <random> //  random_device, mt19937, uniform_int_distribution
 
 /**
- * @brief Definition of useful functions for the entire system.
+ * @brief Definition of useful items for the entire system.
  *
  */
 namespace utils {
+   /**
+    * @brief Player type.
+    *
+    */
+   enum PlayerType {
+      HUMAN,
+      MACHINE,
+   };
+
+   /**
+    * @brief Round log struct.
+    *
+    */
+   struct RoundLog {
+      int score{0};
+      int turns{0};
+   };
+
    /**
     * @brief Randomizes a number with marsenne twitter in the range.
     *
