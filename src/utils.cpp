@@ -11,16 +11,9 @@
 
 #include "utils.h"
 
+// Utils namespace.
 namespace utils {
-   /**
-    * @brief Randomizes a number with marsenne twitter in the range.
-    * 
-    * @note The interval is [init, end].
-    * 
-    * @param end Last number (included)
-    * @param init First number (included)
-    * @return A randomizer number.
-    */
+   // Randomizer a number.
    int rand(int end, int init) {
       std::random_device device;
       std::mt19937 generator(device());
@@ -30,12 +23,7 @@ namespace utils {
       return distribution(generator);
    }
 
-   /**
-    * @brief Trim left elements that match one of the target elements.
-    * 
-    * @param str String to cut.
-    * @param t Target to search.
-    */
+   // Cut the string to the left.
    void leftTrim(std::string& str, std::string const t) {
       str.erase(0, str.find_first_not_of(t));
    }

@@ -14,12 +14,28 @@
 
 #include <random> //  random_device, mt19937, uniform_int_distribution
 
-// Utils namespace.
+/**
+ * @brief Definition of useful functions for the entire system.
+ * 
+ */
 namespace utils {
-   // Randomizer a number.
+   /**
+    * @brief Randomizes a number with marsenne twitter in the range.
+    * 
+    * @note The interval is [init, end].
+    * 
+    * @param end Last number (included)
+    * @param init First number (included)
+    * @return A randomizer number.
+    */
    int rand(int end, int init = 0);
 
-   // Cut the string to the left.
+   /**
+    * @brief Trim left elements that match one of the target elements.
+    * 
+    * @param str String to cut.
+    * @param t Target to search.
+    */
    void leftTrim(std::string& str, std::string const t = " \t\n\r\f\v");
 }
 
