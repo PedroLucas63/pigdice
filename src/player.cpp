@@ -19,8 +19,7 @@ Player::Player(std::string name_) {
 }
 
 // Destructor
-Player::~Player() {
-}
+Player::~Player() { }
 
 // Get player name
 std::string Player::getName() const {
