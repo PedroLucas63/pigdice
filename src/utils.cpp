@@ -4,9 +4,9 @@
  * @brief Implementation of useful functions to the entire project.
  * @version 1.0
  * @date 2023-08-30
- * 
+ *
  * @copyright Copyright (c) 2023
- * 
+ *
  */
 
 #include "utils.h"
@@ -24,7 +24,7 @@ namespace utils {
    }
 
    // Cut the string to the left.
-   void leftTrim(std::string& str, std::string const t) {
+   void leftTrim(std::string &str, std::string const t) {
       str.erase(0, str.find_first_not_of(t));
    }
-}
+} // Namespace utils
