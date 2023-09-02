@@ -1,5 +1,5 @@
 /**
- * @file dice.h
+ * @file dice.hpp
  * @author Pedro Lucas (pedrolucas.jsrn@gmail.com)
  * @brief Definition of the dice class with its attributes and methods.
  * @version 1.0
@@ -9,10 +9,10 @@
  *
  */
 
-#ifndef DICE_H
-#define DICE_H
+#ifndef DICE_HPP_
+#define DICE_HPP_
 
-#include "utils.h"
+#include "utils.hpp"
 #include <string>
 
 #define SIDES 6   /**< Numbers of sides */
@@ -60,4 +60,4 @@ class Dice {
    std::string getSymbol() const;
 };
 
-#endif // DICE_H
+#endif // DICE_HPP_

@@ -9,7 +9,7 @@
  *
  */
 
-#include "dice.h"
+#include "dice.hpp"
 
 // Contructor dice
 Dice::Dice() {

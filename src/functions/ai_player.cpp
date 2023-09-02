@@ -9,7 +9,7 @@
  *
  */
 
-#include "ai_player.h"
+#include "ai_player.hpp"
 
 // Decides whether the player should play
 bool decideRoll(Player const &player, Player const &adversary) {

@@ -9,7 +9,7 @@
  *
  */
 
-#include "player.h"
+#include "player.hpp"
 
 // Constructor with name
 Player::Player(std::string name_) {
@@ -65,7 +65,6 @@ void Player::clearTurnScore() {
 // Add score
 void Player::addScore() {
    score += turn_score;
-   clearTurnScore();
 }
 
 // Add log

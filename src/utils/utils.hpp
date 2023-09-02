@@ -1,5 +1,5 @@
 /**
- * @file utils.h
+ * @file utils.hpp
  * @author Pedro Lucas (pedrolucas.jsrn@gmail.com)
  * @brief Definition of useful functions to the entire project.
  * @version 1.0
@@ -9,8 +9,8 @@
  *
  */
 
-#ifndef UTILS_H
-#define UTILS_H
+#ifndef UTILS_HPP_
+#define UTILS_HPP_
 
 #include <random> //  random_device, mt19937, uniform_int_distribution
 
@@ -57,4 +57,4 @@ namespace utils {
    void leftTrim(std::string &str, std::string const t = " \t\n\r\f\v");
 } // Namespace utils
 
-#endif // UTILS_H
+#endif // UTILS_HPP_

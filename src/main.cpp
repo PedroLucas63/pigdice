@@ -31,7 +31,7 @@
  * @remark On 2022-03-22 refactoring to proper game-loop architecture
  */
 
-#include "pigdice_game.h"
+#include "game_controller.hpp"
 #include <string>
 
 #define ARGUMENTS_WITH_NAME 2 /**< Number of arguments if past name */

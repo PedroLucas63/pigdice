@@ -9,7 +9,7 @@
  *
  */
 
-#include "utils.h"
+#include "utils.hpp"
 
 // Utils namespace.
 namespace utils {

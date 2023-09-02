@@ -1,5 +1,5 @@
 /**
- * @file player.h
+ * @file player.hpp
  * @author Pedro Lucas (pedrolucas.jsrn@gmail.com)
  * @brief Definition of the player class with its attributes and methods.
  * @version 1.0
@@ -9,10 +9,10 @@
  *
  */
 
-#ifndef PLAYER_H
-#define PLAYER_H
+#ifndef PLAYER_HPP_
+#define PLAYER_HPP_
 
-#include "utils.h"
+#include "utils.hpp"
 #include <vector>
 
 #define DEFAULT_NAME "Ned"          /**< Default name for the player */
@@ -108,4 +108,4 @@ class Player {
    void addLog(utils::RoundLog log_);
 };
 
-#endif // PLAYER_H
+#endif // PLAYER_HPP_

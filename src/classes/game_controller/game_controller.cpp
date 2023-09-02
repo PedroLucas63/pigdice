@@ -1,5 +1,5 @@
 /**
- * @file pigdice_game.cpp
+ * @file game_controller.cpp
  * @author Pedro Lucas (pedrolucas.jsrn@gmail.com)
  * @brief Implementation of the methods of the game manager class.
  * @version 1.0
@@ -9,8 +9,8 @@
  *
  */
 
-#include "pigdice_game.h"
-#include "ai_player.h"
+#include "game_controller.hpp"
+#include "ai_player.hpp"
 
 /**
  * @brief Actions in string format
@@ -219,7 +219,6 @@ void GameController::holdingScore() {
    clearRoundLog();
 
    current_player->addScore();
-   current_player->clearTurnScore();
 
    state = HOLDING;
 }
@@ -232,6 +231,8 @@ void GameController::clearRoundLog() {
 
 // Check if there is a winner
 void GameController::checkWinner() {
+   current_player->clearTurnScore();
+
    if (current_player->getScore() >= WINNERS_SCORE) {
       winner = current_player;
       state = WINNER;

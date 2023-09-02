@@ -1,5 +1,5 @@
 /**
- * @file ai_player.h
+ * @file ai_player.hpp
  * @author Pedro Lucas (pedrolucas.jsrn@gmail.com)
  * @brief Defines the machine's decision-making functions.
  * @version 1.0
@@ -9,11 +9,11 @@
  *
  */
 
-#ifndef AI_PLAYER_H
-#define AI_PLAYER_H
+#ifndef AI_PLAYER_HPP_
+#define AI_PLAYER_HPP_
 
-#include "player.h"
-#include "pigdice_game.h"
+#include "player.hpp"
+#include "game_controller.hpp"
 
 #define DANGER_ZONE 71           /**< Danger zone */
 #define EXTREME_DANGER_ZONE 88   /**< Extreme danger zone */
@@ -33,4 +33,4 @@
  */
 bool decideRoll(Player const &player, Player const &adversary);
 
-#endif // AI_PLAYER_H
+#endif // AI_PLAYER_HPP_

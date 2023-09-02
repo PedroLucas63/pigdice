@@ -1,5 +1,5 @@
 /**
- * @file pigdice_game.h
+ * @file game_controller.hpp
  * @author Pedro Lucas (pedrolucas.jsrn@gmail.com)
  * @brief Definition of the game manager class with its attributes and methods.
  * @version 1.0
@@ -9,12 +9,12 @@
  *
  */
 
-#ifndef PIGDICE_GAME_H
-#define PIGDICE_GAME_H
+#ifndef PIGDICE_GAME_HPP_
+#define PIGDICE_GAME_HPP_
 
-#include "dice.h"
-#include "player.h"
-#include "utils.h"
+#include "dice.hpp"
+#include "player.hpp"
+#include "utils.hpp"
 using utils::HUMAN;
 using utils::MACHINE;
 #include <iomanip>
@@ -240,4 +240,4 @@ class GameController {
    void render() const;
 };
 
-#endif // PIGDICE_GAME_H
+#endif // PIGDICE_GAME_HPP_
