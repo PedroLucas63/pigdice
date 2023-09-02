@@ -2,7 +2,7 @@
  * @file utils.h
  * @author Pedro Lucas (pedrolucas.jsrn@gmail.com)
  * @brief Definition of useful functions to the entire project.
- * @version 0.1
+ * @version 1.0
  * @date 2023-08-30
  * 
  * @copyright Copyright (c) 2023
