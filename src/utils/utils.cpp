@@ -14,9 +14,11 @@
 // Utils namespace.
 namespace utils {
    // Randomizer a number.
-   int rand(int end, int init) {
+   int rand(int numbers, int init) {
       std::random_device device;
       std::mt19937 generator(device());
+
+      int end { init + numbers - 1 };
 
       std::uniform_int_distribution<int> distribution(init, end);
 

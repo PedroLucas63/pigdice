@@ -64,7 +64,7 @@ void GameController::processEvents() {
 void GameController::update() {
    switch (state) {
    case STARTING:
-      current_player = &players[utils::rand(1)];
+      current_player = &players[utils::rand(2)];
       state = WELCOME;
       break;
    case WELCOME:

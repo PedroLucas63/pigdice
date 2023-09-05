@@ -38,15 +38,15 @@ namespace utils {
    };
 
    /**
-    * @brief Randomizes a number with marsenne twitter in the range.
+    * @brief Randomizes a number with marsenne twister in the range.
     *
-    * @note The interval is [init, end].
+    * @note The interval is [init, init + numbers).
     *
-    * @param end Last number (included)
+    * @param numbers Amount of numbers (not included)
     * @param init First number (included)
     * @return A randomizer number.
     */
-   int rand(int end, int init = 0);
+   int rand(int numbers, int init = 0);
 
    /**
     * @brief Trim left elements that match one of the target elements.
