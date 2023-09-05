@@ -36,6 +36,7 @@
 
 #define ARGUMENTS_WITH_NAME 2 /**< Number of arguments if past name */
 #define NAME_INDEX 1          /**< Name position index */
+#define MAX_NAME_LENGHT 11    /**< Max name length */
 
 /**
  * @brief Returns the name if it exists
@@ -67,6 +68,8 @@ std::string processName(int argc, char *argv[]) {
    if (argc == ARGUMENTS_WITH_NAME) {
       name = argv[NAME_INDEX];
    }
+
+   name.resize(MAX_NAME_LENGHT);
 
    return name;
 }
