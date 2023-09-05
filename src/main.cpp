@@ -69,7 +69,9 @@ std::string processName(int argc, char *argv[]) {
       name = argv[NAME_INDEX];
    }
 
-   name.resize(MAX_NAME_LENGHT);
+   if (name.length() > MAX_NAME_LENGHT) {
+      name.resize(MAX_NAME_LENGHT);
+   }
 
    return name;
 }
