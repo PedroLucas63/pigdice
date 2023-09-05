@@ -128,7 +128,8 @@ void GameController::render() const {
 
 // Enter to continue
 void GameController::pressEnter() {
-   std::getchar();
+   std::string buffer;
+   std::getline(std::cin, buffer);
 }
 
 // Defines the player and move
