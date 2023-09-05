@@ -8,7 +8,7 @@ Pedro Lucas Medeiros do Nascimento (pedrolucas.jsrn@gmail.com)
 
 # Problems found or limitations
 
-No problems.
+ - Cannot use names longer than 11 characters.
 
 # Grading
 
