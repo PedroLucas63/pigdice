@@ -263,11 +263,10 @@ class GameController {
    ~GameController();
 
    /**
-    * @brief Initialize the GameController with the player's name
+    * @brief Initialize the GameController
     *
-    * @param player_name Player's name
     */
-   void initialize(std::string player_name);
+   void initialize();
 
    /**
     * @brief Returns if the game is over

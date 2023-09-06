@@ -264,7 +264,7 @@ void GameController::sortPlayer() {
 void GameController::performMenuAction() {
    switch (action) {
       case SELECT:
-         state = SELECT_PLAYERS;
+         state = CREATE_PLAYERS;
          break;
       case INFORMATION:
          state = ABOUT;
