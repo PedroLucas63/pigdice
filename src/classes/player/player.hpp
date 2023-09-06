@@ -16,7 +16,6 @@
 #include <vector>
 
 #define DEFAULT_NAME "Ned"          /**< Default name for the player */
-#define DEFAULT_MACHINE_NAME "Ilyn" /**< Default name for the machine */
 #define NULL_NAME "" /**< Null name */
 #define DEFAULT_TYPE utils::MACHINE /**< Default player type */
 #define DEFAULT_SCORE 0             /**< Default score for the player */

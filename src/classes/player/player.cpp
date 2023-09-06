@@ -51,10 +51,8 @@ std::vector<utils::RoundLog> const *Player::getLogs() const {
 void Player::setName(std::string name_) {
    utils::leftTrim(name_);
 
-   if (name_.empty() && type == utils::HUMAN) {
+   if (name_.empty()) {
       name = DEFAULT_NAME;
-   } else if (name_.empty() && type == utils::MACHINE) {
-      name = DEFAULT_MACHINE_NAME;
    } else {
       name = name_;
    }
