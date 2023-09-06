@@ -17,6 +17,8 @@
 #include "utils.hpp"
 using utils::HUMAN;
 using utils::MACHINE;
+using utils::PLAYER1;
+using utils::PLAYER2;
 #include <iomanip>
 #include <iostream>
 using std::cout;
@@ -68,7 +70,9 @@ class GameController {
    Dice dice;                          /**< Dice */
    Player players[NUMBERS_OF_PLAYERS]; /**< Players */
    Player *current_player;             /**< Pointer to current player */
+   Player *adversary_player;             /**< Pointer to adversary player */
    Player *winner;                     /**< Pointer to winner */
+   Player *loser;                     /**< Pointer to loser */
    utils::RoundLog round_log;          /**< Round log */
    GameState state;                    /**< Game state */
    Action action;                      /**< Player action */
@@ -102,7 +106,13 @@ class GameController {
     * @brief Receive quitting confirmation
     *
     */
-   void confirmQuiting();
+   void confirmQuitting();
+
+   /**
+    * @brief Sort first player
+    * 
+    */
+   void sortPlayer();
 
    /**
     * @brief Check what the player's action is and change the game state
