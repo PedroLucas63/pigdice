@@ -29,6 +29,15 @@ namespace utils {
    };
 
    /**
+    * @brief Player position.
+    * 
+    */
+   enum PlayerPosition {
+      PLAYER1,
+      PLAYER2,
+   };
+
+   /**
     * @brief Round log struct.
     *
     */
@@ -38,13 +47,13 @@ namespace utils {
    };
 
    /**
-    * @brief Randomizes a number with marsenne twister in the range.
+    * @brief Randomizes a number with mersenne twister in the range.
     *
     * @note The interval is [init, init + numbers).
     *
     * @param numbers Amount of numbers (not included)
     * @param init First number (included)
-    * @return A randomizer number.
+    * @return A randomized number.
     */
    int rand(int numbers, int init = 0);
 
