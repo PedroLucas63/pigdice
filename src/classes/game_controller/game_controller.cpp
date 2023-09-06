@@ -19,11 +19,21 @@
 std::string const str_actions[] {
    "Select",
    "Information",
+   "Create",
+   "Play",
    "Roll",
    "Hold",
    "Quit",
    "End",
    "None",
+};
+
+std::string const default_names[] {
+   "Daenerys",
+   "Jon Snow",
+   "Cersei",
+   "Robb Stark",
+   "Arya Stark",
 };
 
 // Constructor
@@ -32,9 +42,8 @@ GameController::GameController() { }
 GameController::~GameController() { }
 
 // Initialize game controller information
-void GameController::initialize(std::string player_name) {
-   players[PLAYER1] = Player(HUMAN, player_name);
-   players[PLAYER2] = Player(MACHINE);
+void GameController::initialize() {
+   number_of_players = 0;
    current_player = nullptr;
    adversary_player = nullptr;
    winner = nullptr;
@@ -53,7 +62,8 @@ void GameController::processEvents() {
    case MENU:
       getMenuAction();
       break;
-   case SELECT_PLAYERS:
+   case CREATE_PLAYERS:
+      getPlayer();
       break;
    case ABOUT:
       pressEnter();
@@ -81,8 +91,8 @@ void GameController::update() {
    case MENU:
       performMenuAction();
       break;
-   case SELECT_PLAYERS:
-      state = PLAYING;
+   case CREATE_PLAYERS:
+      createPlayer();
       break;
    case ABOUT:
       state = MENU;
@@ -116,8 +126,8 @@ void GameController::render() const {
    case MENU:
       showMenu();
       break;
-   case SELECT_PLAYERS:
-      showPlayers();
+   case CREATE_PLAYERS:
+      showCreatePlayer();
       break;
    case ABOUT:
       showAbout();
@@ -169,6 +179,19 @@ void GameController::getMenuAction() {
       action = QUIT;
    } else {
       action = SELECT;
+   }
+}
+
+void GameController::getPlayer() {
+   std::string player_name;
+
+   std::getline(std::cin, player_name);
+
+   if (player_name == KEY_ENTER) {
+      action = PLAY;
+   } else {
+      buffer_name = player_name;
+      action = CREATE;
    }
 }
 
@@ -252,6 +275,26 @@ void GameController::performMenuAction() {
          break;
       default:
          break;
+   }
+}
+
+void GameController::createPlayer() {
+   if (action == CREATE) {
+      if (buffer_name == SELECT_MACHINE) {
+         players[number_of_players] = Player(MACHINE, default_names[number_of_players]);
+      } else {
+         players[number_of_players] = Player(HUMAN, buffer_name);
+      }
+
+      ++number_of_players;
+   }
+
+   if ((number_of_players >= DEFAULT_NUMBERS_OF_PLAYERS && action == PLAY) ||
+      number_of_players == MAXIMUM_NUMBER_OF_PLAYERS) 
+   {
+      state = PLAYING;
+   } else {
+      state = CREATE_PLAYERS;
    }
 }
 
@@ -346,15 +389,18 @@ void GameController::showMenu() const {
    cout << "2. About\n";
    cout << "Q. Quit\n";
 
-   cout << "\nSelect an option: ";
+   cout << "\n>>>Select an option: ";
 }
 
-// Show players
-void GameController::showPlayers() const {
-   cout << "\n>>> The players of the game are: \"" << players[PLAYER1].getName()
-        << "\" & \"" << players[PLAYER2].getName() << "\".\n\n";
-   cout << ">>> The player who will start the game is \""
-        << current_player->getName() << "\".\n";
+void GameController::showCreatePlayer() const {
+   cout << "\n-------------------------------------------------------\n";
+
+   cout << "\nCreate " << number_of_players << "° player:\n";
+   cout << "\tHuman player - Enter name (cannot \"Machine\")\n";
+   cout << "\tMachine player - Enter with Machine (the name is automatic)\n";
+   cout << "\tEnd - Press <enter>\n";
+
+   cout << "\n>>> Write here: ";
 }
 
 // Show about section
@@ -389,6 +435,14 @@ void GameController::showAbout() const {
    cout << "\tGithub: PedroLucas63\n\n";
 
    cout << "\tPress <Enter> to return.";
+}
+
+// Show players
+void GameController::showPlayers() const {
+   cout << "\n>>> The players of the game are: \"" << players[PLAYER1].getName()
+        << "\" & \"" << players[PLAYER2].getName() << "\".\n\n";
+   cout << ">>> The player who will start the game is \""
+        << current_player->getName() << "\".\n";
 }
 
 // Show commands

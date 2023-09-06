@@ -24,7 +24,9 @@ using utils::PLAYER2;
 using std::cout;
 
 #define WINNERS_SCORE 100    /**< Score to win */
-#define NUMBERS_OF_PLAYERS 2 /**< Number of players */
+#define DEFAULT_NUMBERS_OF_PLAYERS 2 /**< Default number of players */
+#define MAXIMUM_NUMBER_OF_PLAYERS 5 /**< Maximum number of players */
+#define SELECT_MACHINE "Machine"
 #define COLUMN_SIZE 11       /**< Table column size */
 #define PIG_DICE 1           /**< Pig number on the dice */
 #define KEY_SELECT_PLAYERS "1" /**< Select players key */
@@ -33,6 +35,7 @@ using std::cout;
 #define KEY_ROLL "r"         /**< Roll key */
 #define KEY_HOLD "h"         /**< Hold key */
 #define KEY_CONFIRM "y"      /**< Confirm key */
+#define KEY_ENTER "\n"
 
 /**
  * @brief Definition of player class
@@ -47,7 +50,7 @@ class GameController {
    enum GameState {
       STARTING,
       MENU,
-      SELECT_PLAYERS,
+      CREATE_PLAYERS,
       ABOUT,
       PLAYING,
       ROLLING,
@@ -65,6 +68,8 @@ class GameController {
    enum Action {
       SELECT,
       INFORMATION,
+      CREATE,
+      PLAY,
       ROLL,
       HOLD,
       QUIT,
@@ -74,7 +79,9 @@ class GameController {
 
    /* Definition of attributes */
    Dice dice;                          /**< Dice */
-   Player players[NUMBERS_OF_PLAYERS]; /**< Players */
+   int number_of_players; /**< Number of players */
+   Player players[MAXIMUM_NUMBER_OF_PLAYERS]; /**< Players */
+   std::string buffer_name;
    Player *current_player;             /**< Pointer to current player */
    Player *adversary_player;             /**< Pointer to adversary player */
    Player *winner;                     /**< Pointer to winner */
@@ -96,6 +103,8 @@ class GameController {
     * 
     */
    void getMenuAction();
+
+   void getPlayer();
 
    /**
     * @brief Manages who performs the move and saves the data
@@ -132,6 +141,8 @@ class GameController {
     * 
     */
    void performMenuAction();
+
+   void createPlayer();
 
    /**
     * @brief Check what the player's action is and change the game state
@@ -181,17 +192,20 @@ class GameController {
     */
    void showMenu() const;
 
-   /**
-    * @brief Displays players and first player
-    * 
-    */
-   void showPlayers() const;
+   void showCreatePlayer() const;
 
    /**
     * @brief Displays about section
     * 
     */
    void showAbout() const;
+
+
+   /**
+    * @brief Displays players and first player
+    * 
+    */
+   void showPlayers() const;
 
    /**
     * @brief Displays input commands
