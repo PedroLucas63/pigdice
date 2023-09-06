@@ -17,7 +17,13 @@
  *
  */
 std::string const str_actions[] {
-   "Roll", "Hold", "Quit", "End", "None",
+   "Select",
+   "Information",
+   "Roll",
+   "Hold",
+   "Quit",
+   "End",
+   "None",
 };
 
 // Constructor
@@ -32,7 +38,6 @@ void GameController::initialize(std::string player_name) {
    current_player = nullptr;
    adversary_player = nullptr;
    winner = nullptr;
-   loser = nullptr;
    state = STARTING;
    action = NONE;
 }
@@ -45,7 +50,12 @@ bool GameController::gameOver() const {
 // Process the events
 void GameController::processEvents() {
    switch (state) {
-   case WELCOME:
+   case MENU:
+      getMenuAction();
+      break;
+   case SELECT_PLAYERS:
+      break;
+   case ABOUT:
       pressEnter();
       break;
    case PLAYING:
@@ -68,11 +78,17 @@ void GameController::update() {
    case STARTING:
       sortPlayer();
       break;
-   case WELCOME:
+   case MENU:
+      performMenuAction();
+      break;
+   case SELECT_PLAYERS:
       state = PLAYING;
       break;
+   case ABOUT:
+      state = MENU;
+      break;
    case PLAYING:
-      performAction();
+      performPlayerAction();
       break;
    case ROLLING:
       state = PLAYING;
@@ -97,8 +113,14 @@ void GameController::update() {
 // Render the UI
 void GameController::render() const {
    switch (state) {
-   case WELCOME:
+   case MENU:
       showMenu();
+      break;
+   case SELECT_PLAYERS:
+      showPlayers();
+      break;
+   case ABOUT:
+      showAbout();
       break;
    case PLAYING:
       showCommands();
@@ -131,6 +153,23 @@ void GameController::render() const {
 void GameController::pressEnter() {
    std::string buffer;
    std::getline(std::cin, buffer);
+}
+
+// Get the menu action
+void GameController::getMenuAction() {
+   std::string action_;
+
+   std::getline(std::cin, action_);
+
+   action_ = std::tolower(*action_.begin());
+
+   if (action_ == KEY_ABOUT) {
+      action = INFORMATION;
+   } else if (action_ == KEY_QUIT) {
+      action = QUIT;
+   } else {
+      action = SELECT;
+   }
 }
 
 // Defines the player and move
@@ -195,11 +234,29 @@ void GameController::sortPlayer() {
       adversary_player = &players[PLAYER1];
    }
 
-   state = WELCOME;
+   state = MENU;
+}
+
+// Performs the action in menu
+void GameController::performMenuAction() {
+   switch (action) {
+      case SELECT:
+         state = SELECT_PLAYERS;
+         break;
+      case INFORMATION:
+         state = ABOUT;
+         break;
+      case QUIT:
+         state = QUITTING;
+         last_state = MENU;
+         break;
+      default:
+         break;
+   }
 }
 
 // Performs the action and modifies the situation
-void GameController::performAction() {
+void GameController::performPlayerAction() {
    switch (action) {
    case ROLL:
       rollingDice();
@@ -209,6 +266,7 @@ void GameController::performAction() {
       break;
    case QUIT:
       state = QUITTING;
+      last_state = PLAYING;
       break;
    default:
       break;
@@ -252,7 +310,6 @@ void GameController::checkWinner() {
 
    if (current_player->getScore() >= WINNERS_SCORE) {
       winner = current_player;
-      loser = adversary_player;
       state = WINNER;
    } else {
       switchPlayer();
@@ -276,37 +333,62 @@ void GameController::verifyEnding() {
    if (action == END) {
       state = ENDING;
    } else {
-      state = PLAYING;
+      state = last_state;
    }
 }
 
 // Show main menu
 void GameController::showMenu() const {
-   cout << "\t\t---> Welcome to the Pig Dice Game (v 1.0) <---\n";
-   cout << "\t\t\t-copyright DIMAp/UFRN 2023-\n\n";
+   cout << "\n\t---> Welcome to the Pig Dice Game (v 1.0) <---\n";
+   cout << "\t\t-copyright DIMAp/UFRN 2023-\n\n\n";
 
-   cout << "The object of the jeopardy dice game Pig is to be the first "
-        << "player to reach 100 points.\n";
-   cout << "Each player's turn consists of repeatedly rolling a die. After "
-        << "each roll, the player is faced with two choices: roll again, or "
-        << "hold (decline to roll again).\n";
+   cout << "1. Select Players\n";
+   cout << "2. About\n";
+   cout << "Q. Quit\n";
 
-   cout << "\t• If the player rolls a 1, the player scores nothing and it "
-        << "becomes the opponent's turn.\n";
-   cout
-       << "\t• If the player rolls a number other than 1, the number is "
-       << "added to the player's turn total and the player's turn continues.\n";
-   cout
-       << "\t• If the player holds, the turn total, the sum of the rolls "
-       << "during the turn, is added to the player's score, and it becomes the "
-       << "opponent's turn.\n\n";
+   cout << "\nSelect an option: ";
+}
 
-   cout << ">>> The players of the game are: \"" << players[PLAYER1].getName()
+// Show players
+void GameController::showPlayers() const {
+   cout << "\n>>> The players of the game are: \"" << players[PLAYER1].getName()
         << "\" & \"" << players[PLAYER2].getName() << "\".\n\n";
    cout << ">>> The player who will start the game is \""
         << current_player->getName() << "\".\n";
+}
 
-   cout << "\tPress <Enter> to start the match.";
+// Show about section
+void GameController::showAbout() const {
+   cout << "\n-------------------------------------------------------\n";
+
+   cout << "About the game: \n";
+   cout << "\tThe object of the jeopardy dice game Pig is to be the first "
+        << "player to reach 100 points.\n";
+   cout << "\tEach player's turn consists of repeatedly rolling a die. After "
+        << "each roll, the player is faced with two choices: roll again, or "
+        << "hold (decline to roll again).\n";
+
+   cout << "\t\t• If the player rolls a 1, the player scores nothing and it "
+        << "becomes the opponent's turn.\n";
+   cout
+       << "\t\t• If the player rolls a number other than 1, the number is "
+       << "added to the player's turn total and the player's turn continues.\n";
+   cout
+       << "\t\t• If the player holds, the turn total, the sum of the rolls "
+       << "during the turn, is added to the player's score, and it becomes the "
+       << "opponent's turn.\n\n";
+
+   cout << "Motivation:\n";
+   cout << "\tThe present software was developed for the submission of "
+        << "assignments for the Programming I course at the Federal University "
+        << "of Rio Grande do Norte.\n\n";
+
+   cout << "About the development:\n";
+   cout << "\tDeveloper: Pedro Lucas\n";
+   cout << "\tE-mail: pedrolucas.jsrn@gmail.com\n";
+   cout << "\tGithub: PedroLucas63\n\n";
+
+   cout << "\tPress <Enter> to return.";
 }
 
 // Show commands

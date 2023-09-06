@@ -27,9 +27,11 @@ using std::cout;
 #define NUMBERS_OF_PLAYERS 2 /**< Number of players */
 #define COLUMN_SIZE 11       /**< Table column size */
 #define PIG_DICE 1           /**< Pig number on the dice */
+#define KEY_SELECT_PLAYERS "1" /**< Select players key */
+#define KEY_ABOUT "2" /**< About key */
+#define KEY_QUIT "q"         /**< Quit key */
 #define KEY_ROLL "r"         /**< Roll key */
 #define KEY_HOLD "h"         /**< Hold key */
-#define KEY_QUIT "q"         /**< Quit key */
 #define KEY_CONFIRM "y"      /**< Confirm key */
 
 /**
@@ -44,7 +46,9 @@ class GameController {
     */
    enum GameState {
       STARTING,
-      WELCOME,
+      MENU,
+      SELECT_PLAYERS,
+      ABOUT,
       PLAYING,
       ROLLING,
       HOLDING,
@@ -59,6 +63,8 @@ class GameController {
     *
     */
    enum Action {
+      SELECT,
+      INFORMATION,
       ROLL,
       HOLD,
       QUIT,
@@ -72,10 +78,11 @@ class GameController {
    Player *current_player;             /**< Pointer to current player */
    Player *adversary_player;             /**< Pointer to adversary player */
    Player *winner;                     /**< Pointer to winner */
-   Player *loser;                     /**< Pointer to loser */
    utils::RoundLog round_log;          /**< Round log */
    GameState state;                    /**< Game state */
+   GameState last_state; /**< Last state */
    Action action;                      /**< Player action */
+
 
    /* Definition of private methods */
    /**
@@ -83,6 +90,12 @@ class GameController {
     *
     */
    void pressEnter();
+
+   /**
+    * @brief Get the menu action
+    * 
+    */
+   void getMenuAction();
 
    /**
     * @brief Manages who performs the move and saves the data
@@ -115,10 +128,16 @@ class GameController {
    void sortPlayer();
 
    /**
+    * @brief Checks which menu action was performed
+    * 
+    */
+   void performMenuAction();
+
+   /**
     * @brief Check what the player's action is and change the game state
     *
     */
-   void performAction();
+   void performPlayerAction();
 
    /**
     * @brief Rolls the dice and manages state and records
@@ -157,10 +176,22 @@ class GameController {
    void verifyEnding();
 
    /**
-    * @brief Displays the main menu
-    *
+    * @brief Displays main menu
+    * 
     */
    void showMenu() const;
+
+   /**
+    * @brief Displays players and first player
+    * 
+    */
+   void showPlayers() const;
+
+   /**
+    * @brief Displays about section
+    * 
+    */
+   void showAbout() const;
 
    /**
     * @brief Displays input commands
