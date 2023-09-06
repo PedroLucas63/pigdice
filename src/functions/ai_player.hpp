@@ -31,6 +31,6 @@
  * @param adversary Opposing player
  * @return Whether to roll the dice or not
  */
-bool decideRoll(Player const &player, Player const &adversary);
+bool decideRoll(Player const *player, Player const *adversary);
 
 #endif // AI_PLAYER_HPP_
