@@ -11,8 +11,9 @@
 
 #include "player.hpp"
 
-// Constructor with name
-Player::Player(std::string name_) {
+// Constructor with type and name
+Player::Player(utils::PlayerType type_, std::string name_) {
+   type = type_;
    setName(name_);
    turn_score = DEFAULT_SCORE;
    score = DEFAULT_SCORE;
@@ -20,6 +21,11 @@ Player::Player(std::string name_) {
 
 // Destructor
 Player::~Player() { }
+
+// Get player type
+utils::PlayerType Player::getType() const {
+   return type;
+}
 
 // Get player name
 std::string Player::getName() const {
@@ -45,8 +51,10 @@ std::vector<utils::RoundLog> const *Player::getLogs() const {
 void Player::setName(std::string name_) {
    utils::leftTrim(name_);
 
-   if (name_.empty()) {
+   if (name_.empty() && type == utils::HUMAN) {
       name = DEFAULT_NAME;
+   } else if (name_.empty() && type == utils::MACHINE) {
+      name = DEFAULT_MACHINE_NAME;
    } else {
       name = name_;
    }
