@@ -35,7 +35,6 @@ using std::cout;
 #define KEY_ROLL "r"         /**< Roll key */
 #define KEY_HOLD "h"         /**< Hold key */
 #define KEY_CONFIRM "y"      /**< Confirm key */
-#define KEY_ENTER "\n"
 
 /**
  * @brief Definition of player class

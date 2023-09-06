@@ -187,7 +187,7 @@ void GameController::getPlayer() {
 
    std::getline(std::cin, player_name);
 
-   if (player_name == KEY_ENTER) {
+   if (player_name.empty()) {
       action = PLAY;
    } else {
       buffer_name = player_name;
@@ -389,18 +389,18 @@ void GameController::showMenu() const {
    cout << "2. About\n";
    cout << "Q. Quit\n";
 
-   cout << "\n>>>Select an option: ";
+   cout << "\n > Select an option: ";
 }
 
 void GameController::showCreatePlayer() const {
    cout << "\n-------------------------------------------------------\n";
 
-   cout << "\nCreate " << number_of_players << "° player:\n";
+   cout << "\nCreate " << number_of_players + 1 << "° player:\n";
    cout << "\tHuman player - Enter name (cannot \"Machine\")\n";
    cout << "\tMachine player - Enter with Machine (the name is automatic)\n";
    cout << "\tEnd - Press <enter>\n";
 
-   cout << "\n>>> Write here: ";
+   cout << "\n > Write here: ";
 }
 
 // Show about section
