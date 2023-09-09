@@ -39,8 +39,7 @@ make all
 ## Usage 📋
 To play Pig Dice, simply run the following command:
 ```bash
-./build/pigdice [NAME]
+./build/pigdice
 ```
-- `[NAME]` (optional): Your name or a nickname to personalize your game.
 
 Follow the on-screen prompts to make your moves, and compete with the computer to see who can score higher.
