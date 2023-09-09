@@ -18,8 +18,8 @@ bool decideRoll(Player const *player, Player* const players,
    Player adversaries[--number_of_players];
    getAdversaries(player, players, number_of_players, adversaries);
 
-   bool extreme_danger;
-   bool danger;
+   bool extreme_danger { false };
+   bool danger { false };
    Player* best_player { adversaries };
 
    for (size_t index { 0 }; index < number_of_players; ++index) {
@@ -30,7 +30,7 @@ bool decideRoll(Player const *player, Player* const players,
       }
 
       if (adversaries[index].getScore() > best_player->getScore()) {
-         best_player = adversaries + index;
+         best_player = &adversaries[index];
       }
    }
 
