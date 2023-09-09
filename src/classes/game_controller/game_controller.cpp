@@ -400,7 +400,7 @@ void GameController::showMenu() const {
    cout << "\n\t---> Welcome to the Pig Dice Game (v 1.0) <---\n";
    cout << "\t\t-copyright DIMAp/UFRN 2023-\n\n\n";
 
-   cout << "1. Select Players\n";
+   cout << "1. Play\n";
    cout << "2. About\n";
    cout << "Q. Quit\n";
 
