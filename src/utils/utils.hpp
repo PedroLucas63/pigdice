@@ -29,15 +29,6 @@ namespace utils {
    };
 
    /**
-    * @brief Player position.
-    * 
-    */
-   enum PlayerPosition {
-      PLAYER1,
-      PLAYER2,
-   };
-
-   /**
     * @brief Round log struct.
     *
     */
