@@ -15,12 +15,12 @@
 #include <random> //  random_device, mt19937, uniform_int_distribution
 
 /**
- * @brief Definition of useful items for the entire system.
+ * @brief Definition of useful items for the entire system
  *
  */
 namespace utils {
    /**
-    * @brief Player type.
+    * @brief Player type
     *
     */
    enum PlayerType {
@@ -29,7 +29,7 @@ namespace utils {
    };
 
    /**
-    * @brief Round log struct.
+    * @brief Round log struct
     *
     */
    struct RoundLog {
@@ -38,21 +38,21 @@ namespace utils {
    };
 
    /**
-    * @brief Randomizes a number with mersenne twister in the range.
+    * @brief Randomizes a number with mersenne twister in the range
     *
-    * @note The interval is [init, init + numbers).
+    * @note The interval is [init, init + numbers)
     *
     * @param numbers Amount of numbers (not included)
     * @param init First number (included)
-    * @return A randomized number.
+    * @return A randomized number
     */
    int rand(int numbers, int init = 0);
 
    /**
-    * @brief Trim left elements that match one of the target elements.
+    * @brief Trim left elements that match one of the target elements
     *
-    * @param str String to cut.
-    * @param t Target to search.
+    * @param str String to cut
+    * @param t Target to search
     */
    void leftTrim(std::string &str, std::string const t = " \t\n\r\f\v");
 } // Namespace utils

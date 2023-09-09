@@ -11,9 +11,9 @@
 
 #include "utils.hpp"
 
-// Utils namespace.
+// Utils namespace
 namespace utils {
-   // Randomizer a number.
+   // Randomize a number
    int rand(int numbers, int init) {
       std::random_device device;
       std::mt19937 generator(device());
@@ -25,7 +25,7 @@ namespace utils {
       return distribution(generator);
    }
 
-   // Cut the string to the left.
+   // Cut the string to the left
    void leftTrim(std::string &str, std::string const t) {
       str.erase(0, str.find_first_not_of(t));
    }
