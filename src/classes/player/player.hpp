@@ -16,7 +16,7 @@
 #include <vector>
 
 #define DEFAULT_NAME "Ned"          /**< Default name for the player */
-#define NULL_NAME "" /**< Null name */
+#define NULL_NAME ""                /**< Null name */
 #define DEFAULT_TYPE utils::MACHINE /**< Default player type */
 #define DEFAULT_SCORE 0             /**< Default score for the player */
 #define DEFAULT_ROUND 0             /**< Default score round for the player */
@@ -28,7 +28,7 @@
  */
 class Player {
    /* Definition of attributes */
-   utils::PlayerType type; /**< Player type */
+   utils::PlayerType type;            /**< Player type */
    std::string name;                  /**< Player name */
    int turn_score;                    /**< Player turn score */
    int score;                         /**< Player score */
