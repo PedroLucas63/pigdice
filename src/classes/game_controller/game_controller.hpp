@@ -17,24 +17,22 @@
 #include "utils.hpp"
 using utils::HUMAN;
 using utils::MACHINE;
-using utils::PLAYER1;
-using utils::PLAYER2;
 #include <iomanip>
 #include <iostream>
 using std::cout;
 
-#define WINNERS_SCORE 100    /**< Score to win */
-#define DEFAULT_NUMBERS_OF_PLAYERS 2 /**< Default number of players */
-#define MAXIMUM_NUMBER_OF_PLAYERS 5 /**< Maximum number of players */
-#define SELECT_MACHINE "Machine"
-#define COLUMN_SIZE 11       /**< Table column size */
-#define PIG_DICE 1           /**< Pig number on the dice */
-#define KEY_SELECT_PLAYERS "1" /**< Select players key */
-#define KEY_ABOUT "2" /**< About key */
-#define KEY_QUIT "q"         /**< Quit key */
-#define KEY_ROLL "r"         /**< Roll key */
-#define KEY_HOLD "h"         /**< Hold key */
-#define KEY_CONFIRM "y"      /**< Confirm key */
+#define WINNERS_SCORE 100              /**< Score to win */
+#define DEFAULT_NUMBERS_OF_PLAYERS 2   /**< Default number of players */
+#define MAXIMUM_NUMBER_OF_PLAYERS 5    /**< Maximum number of players */
+#define SELECT_MACHINE "Machine"       /**< Name to select a machine player */
+#define COLUMN_SIZE 11                 /**< Table column size */
+#define PIG_DICE 1                     /**< Pig number on the dice */
+#define KEY_SELECT_PLAYERS "1"         /**< Select players key */
+#define KEY_ABOUT "2"                  /**< About key */
+#define KEY_QUIT "q"                   /**< Quit key */
+#define KEY_ROLL "r"                   /**< Roll key */
+#define KEY_HOLD "h"                   /**< Hold key */
+#define KEY_CONFIRM "y"                /**< Confirm key */
 
 /**
  * @brief Definition of player class
@@ -51,6 +49,8 @@ class GameController {
       MENU,
       CREATE_PLAYERS,
       ABOUT,
+      SORT_PLAYER,
+      SHOW_PLAYERS,
       PLAYING,
       ROLLING,
       HOLDING,
@@ -77,17 +77,16 @@ class GameController {
    };
 
    /* Definition of attributes */
-   Dice dice;                          /**< Dice */
-   int number_of_players; /**< Number of players */
+   Dice dice;                                /**< Dice */
+   size_t number_of_players;                 /**< Number of players */
    Player players[MAXIMUM_NUMBER_OF_PLAYERS]; /**< Players */
-   std::string buffer_name;
-   Player *current_player;             /**< Pointer to current player */
-   Player *adversary_player;             /**< Pointer to adversary player */
-   Player *winner;                     /**< Pointer to winner */
-   utils::RoundLog round_log;          /**< Round log */
-   GameState state;                    /**< Game state */
-   GameState last_state; /**< Last state */
-   Action action;                      /**< Player action */
+   std::string buffer_name;                  /**< Buffer name */
+   Player *current_player;                   /**< Pointer to current player */
+   Player *winner;                           /**< Pointer to winner */
+   utils::RoundLog round_log;                /**< Round log */
+   GameState state;                          /**< Game state */
+   GameState last_state;                     /**< Last state */
+   Action action;                            /**< Player action */
 
 
    /* Definition of private methods */
@@ -103,6 +102,10 @@ class GameController {
     */
    void getMenuAction();
 
+   /**
+    * @brief Receives the data for creating a player
+    * 
+    */
    void getPlayer();
 
    /**
@@ -141,6 +144,10 @@ class GameController {
     */
    void performMenuAction();
 
+   /**
+    * @brief Create the player and update the state
+    * 
+    */
    void createPlayer();
 
    /**
@@ -191,6 +198,10 @@ class GameController {
     */
    void showMenu() const;
 
+   /**
+    * @brief Displays the player creation information menu
+    * 
+    */
    void showCreatePlayer() const;
 
    /**

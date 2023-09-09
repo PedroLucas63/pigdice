@@ -28,6 +28,10 @@ std::string const str_actions[] {
    "None",
 };
 
+/**
+ * @brief Standard machine names
+ * 
+ */
 std::string const default_names[] {
    "Daenerys",
    "Jon Snow",
@@ -45,7 +49,6 @@ GameController::~GameController() { }
 void GameController::initialize() {
    number_of_players = 0;
    current_player = nullptr;
-   adversary_player = nullptr;
    winner = nullptr;
    state = STARTING;
    action = NONE;
@@ -68,6 +71,9 @@ void GameController::processEvents() {
    case ABOUT:
       pressEnter();
       break;
+   case SHOW_PLAYERS:
+      pressEnter();
+      break;
    case PLAYING:
       getPlay();
       break;
@@ -86,7 +92,7 @@ void GameController::processEvents() {
 void GameController::update() {
    switch (state) {
    case STARTING:
-      sortPlayer();
+      state = MENU;
       break;
    case MENU:
       performMenuAction();
@@ -96,6 +102,12 @@ void GameController::update() {
       break;
    case ABOUT:
       state = MENU;
+      break;
+   case SORT_PLAYER:
+      sortPlayer();
+      break;
+   case SHOW_PLAYERS:
+      state = PLAYING;
       break;
    case PLAYING:
       performPlayerAction();
@@ -131,6 +143,9 @@ void GameController::render() const {
       break;
    case ABOUT:
       showAbout();
+      break;
+   case SHOW_PLAYERS:
+      showPlayers();
       break;
    case PLAYING:
       showCommands();
@@ -182,6 +197,7 @@ void GameController::getMenuAction() {
    }
 }
 
+// Get player name
 void GameController::getPlayer() {
    std::string player_name;
 
@@ -223,7 +239,7 @@ void GameController::getHumanAction() {
 
 // Receives input from the machine
 void GameController::getMachineAction() {
-   bool roll { decideRoll(current_player, adversary_player) };
+   bool roll { decideRoll(current_player, players, number_of_players) };
 
    if (roll) {
       action = ROLL;
@@ -247,17 +263,11 @@ void GameController::confirmQuitting() {
 
 // Sort first player
 void GameController::sortPlayer() {
-   int sorted_player { utils::rand(2) };
+   int sorted_player { utils::rand(number_of_players) };
 
-   if (sorted_player == PLAYER1) {
-      current_player = &players[PLAYER1];
-      adversary_player = &players[PLAYER2];
-   } else {
-      current_player = &players[PLAYER2];
-      adversary_player = &players[PLAYER1];
-   }
+   current_player = &players[sorted_player];
 
-   state = MENU;
+   state = SHOW_PLAYERS;
 }
 
 // Performs the action in menu
@@ -278,7 +288,12 @@ void GameController::performMenuAction() {
    }
 }
 
+// Create players
 void GameController::createPlayer() {
+   if (buffer_name.length() > COLUMN_SIZE) {
+      buffer_name.resize(COLUMN_SIZE);
+   }
+   
    if (action == CREATE) {
       if (buffer_name == SELECT_MACHINE) {
          players[number_of_players] = Player(MACHINE, default_names[number_of_players]);
@@ -292,7 +307,7 @@ void GameController::createPlayer() {
    if ((number_of_players >= DEFAULT_NUMBERS_OF_PLAYERS && action == PLAY) ||
       number_of_players == MAXIMUM_NUMBER_OF_PLAYERS) 
    {
-      state = PLAYING;
+      state = SORT_PLAYER;
    } else {
       state = CREATE_PLAYERS;
    }
@@ -362,12 +377,12 @@ void GameController::checkWinner() {
 
 // Change current player
 void GameController::switchPlayer() {
-   if (current_player == &players[PLAYER1]) {
-      current_player = &players[PLAYER2];
-      adversary_player = &players[PLAYER1];
-   } else {
-      current_player = &players[PLAYER1];
-      adversary_player = &players[PLAYER2];
+   Player* last_player { &players[number_of_players - 1] };
+
+   ++current_player;
+
+   if (current_player > last_player) {
+      current_player = players;
    }
 }
 
@@ -392,6 +407,7 @@ void GameController::showMenu() const {
    cout << "\n > Select an option: ";
 }
 
+// Show create player section
 void GameController::showCreatePlayer() const {
    cout << "\n-------------------------------------------------------\n";
 
@@ -439,9 +455,15 @@ void GameController::showAbout() const {
 
 // Show players
 void GameController::showPlayers() const {
-   cout << "\n>>> The players of the game are: \"" << players[PLAYER1].getName()
-        << "\" & \"" << players[PLAYER2].getName() << "\".\n\n";
-   cout << ">>> The player who will start the game is \""
+   cout << "\n>>> The players of the game are: ";
+
+   for (size_t index { 0 }; index < number_of_players; index++) {
+      std::string separator = index + 2 == number_of_players ? " & " : 
+         index + 1 == number_of_players ? "" : ", ";
+
+      cout << players[index].getName() << separator;
+   }
+   cout << "\n\n>>> The player who will start the game is \""
         << current_player->getName() << "\".\n";
 }
 
@@ -475,15 +497,18 @@ void GameController::showTurnTotal() const {
 // Show total score
 void GameController::showScores() const {
    char const separator { ' ' };
-   cout << std::setfill(separator);
 
    cout << "\n┌───────────────────────┐\n";
    cout << "│      Score Board      │\n";
    cout << "├───────────┬───────────┤\n";
-   cout << "│" << std::setw(COLUMN_SIZE) << players[PLAYER1].getName() << "│"
-        << std::setw(COLUMN_SIZE) << players[PLAYER1].getScore() << "│\n";
-   cout << "│" << std::setw(COLUMN_SIZE) << players[PLAYER2].getName() << "│"
-        << std::setw(COLUMN_SIZE) << players[PLAYER2].getScore() << "│\n";
+
+   for (size_t index { 0 }; index < number_of_players; index++) {
+      cout << std::setfill(separator);
+
+      cout << "│" << std::setw(COLUMN_SIZE) << players[index].getName() << "│"
+        << std::setw(COLUMN_SIZE) << players[index].getScore() << "│\n";
+   }
+
    cout << "└───────────┴───────────┘\n";
 
    cout << ">>> Press enter to continue...";
@@ -504,18 +529,13 @@ void GameController::showWinner() const {
 void GameController::showLogs() const {
    cout << "[[ LOG of ACTIONS during the game ]]\n\n";
 
-   cout << "Decisions taken by player \"" << players[PLAYER1].getName()
+   for (size_t index { 0 }; index < number_of_players; index++) {
+      cout << "\nDecisions taken by player \"" << players[index].getName()
         << "\":\n";
 
-   for (utils::RoundLog round : *players[PLAYER1].getLogs()) {
-      cout << round.turns << " dice rolls produced " << round.score << "\n";
-   }
-
-   cout << "\nDecisions taken by player \"" << players[PLAYER2].getName()
-        << "\":\n";
-
-   for (utils::RoundLog round : *players[PLAYER2].getLogs()) {
-      cout << round.turns << " dice rolls produced " << round.score << "\n";
+      for (utils::RoundLog round : *players[index].getLogs()) {
+         cout << round.turns << " dice rolls produced " << round.score << "\n";
+      }
    }
 }
 
