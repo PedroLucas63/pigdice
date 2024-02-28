@@ -3,9 +3,11 @@
 [![📥 Download](https://img.shields.io/badge/📥%20Download-Pig_Dice_Game-blue.svg)](https://github.com/PedroLucas63/pigdice/releases)
 
 ## Overview 🌟
+
 Pig Dice is a fun and interactive dice game where you can challenge yourself against the computer! Roll the dice and choose when to hold your score to avoid losing it. The game is simple to play and provides endless entertainment.
 
 ## Features 🚀
+
 - Play against the computer 💻
 - Roll the dice to accumulate points 🎯
 - Decide when to hold your score 🤞
@@ -13,24 +15,31 @@ Pig Dice is a fun and interactive dice game where you can challenge yourself aga
 
 ## Usage 📋
 To play Pig Dice, simply run the following command:
+
 ```bash
 pigdice [NAME]
 ```
+
 - `[NAME]` (optional): Your name or a nickname to personalize your game.
 
 Follow the on-screen prompts to make your moves, and compete with the computer to see who can score higher.
 
 ## Building 🏗️
+
 To build the game, use the following command:
+
 ```bash
 make all
 ```
 
 ## License 📜
+
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## Contributions 🤝
+
 Contributions are welcome! If you have any ideas for improvements or find any issues, please open an [issue](https://github.com/PedroLucas63/pigdice/issues) or submit a [pull request](https://github.com/PedroLucas63/pigdice/pulls).
 
 ## Contact 📧
+
 For any inquiries or feedback, please contact us at [pedrolucas.jsrn@gmail.com](mailto:pedrolucas.jsrn@gmail.com). We'd love to hear from you! 😊📧
