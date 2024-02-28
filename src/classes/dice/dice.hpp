@@ -48,14 +48,14 @@ class Dice {
    /**
     * @brief Get the random number
     *
-    * @return The number.
+    * @return The number
     */
    int getNumber() const;
 
    /**
     * @brief Get the data symbol from the generated random number
     *
-    * @return The symbol.
+    * @return The symbol
     */
    std::string getSymbol() const;
 };

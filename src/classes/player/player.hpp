@@ -16,7 +16,8 @@
 #include <vector>
 
 #define DEFAULT_NAME "Ned"          /**< Default name for the player */
-#define DEFAULT_MACHINE_NAME "Ilyn" /**< Default name for the machine */
+#define NULL_NAME ""                /**< Null name */
+#define DEFAULT_TYPE utils::MACHINE /**< Default player type */
 #define DEFAULT_SCORE 0             /**< Default score for the player */
 #define DEFAULT_ROUND 0             /**< Default score round for the player */
 #define MINIMUM_SCORE 0             /**< Minimum score in round */
@@ -27,23 +28,32 @@
  */
 class Player {
    /* Definition of attributes */
+   utils::PlayerType type;            /**< Player type */
    std::string name;                  /**< Player name */
    int turn_score;                    /**< Player turn score */
    int score;                         /**< Player score */
    std::vector<utils::RoundLog> logs; /**< Game logs */
  public:
    /**
-    * @brief Construct a new Player object with the specified name
+    * @brief Construct a new Player object with the specified type and name
     *
+    * @param type_ Player type
     * @param name_ Player name
     */
-   Player(std::string name_ = DEFAULT_NAME);
+   Player(utils::PlayerType type_ = DEFAULT_TYPE, std::string name_ = NULL_NAME);
 
    /**
     * @brief Destroy the Player object
     *
     */
    ~Player();
+
+    /**
+    * @brief Get player type
+    * 
+    * @return The type
+    */
+   utils::PlayerType getType() const;
 
    /**
     * @brief Get player name

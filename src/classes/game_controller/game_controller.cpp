@@ -17,7 +17,27 @@
  *
  */
 std::string const str_actions[] {
-   "Rool", "Hold", "Quit", "End", "None",
+   "Select",
+   "Information",
+   "Create",
+   "Play",
+   "Roll",
+   "Hold",
+   "Quit",
+   "End",
+   "None",
+};
+
+/**
+ * @brief Standard machine names
+ * 
+ */
+std::string const default_names[] {
+   "Daenerys",
+   "Jon Snow",
+   "Cersei",
+   "Robb Stark",
+   "Arya Stark",
 };
 
 // Constructor
@@ -26,9 +46,8 @@ GameController::GameController() { }
 GameController::~GameController() { }
 
 // Initialize game controller information
-void GameController::initialize(std::string player_name) {
-   players[HUMAN] = Player(player_name);
-   players[MACHINE] = Player(DEFAULT_MACHINE_NAME);
+void GameController::initialize() {
+   number_of_players = 0;
    current_player = nullptr;
    winner = nullptr;
    state = STARTING;
@@ -43,7 +62,16 @@ bool GameController::gameOver() const {
 // Process the events
 void GameController::processEvents() {
    switch (state) {
-   case WELCOME:
+   case MENU:
+      getMenuAction();
+      break;
+   case CREATE_PLAYERS:
+      getPlayer();
+      break;
+   case ABOUT:
+      pressEnter();
+      break;
+   case SHOW_PLAYERS:
       pressEnter();
       break;
    case PLAYING:
@@ -53,7 +81,7 @@ void GameController::processEvents() {
       pressEnter();
       break;
    case QUITTING:
-      confirmQuiting();
+      confirmQuitting();
       break;
    default:
       break;
@@ -64,14 +92,25 @@ void GameController::processEvents() {
 void GameController::update() {
    switch (state) {
    case STARTING:
-      current_player = &players[utils::rand(2)];
-      state = WELCOME;
+      state = MENU;
       break;
-   case WELCOME:
+   case MENU:
+      performMenuAction();
+      break;
+   case CREATE_PLAYERS:
+      createPlayer();
+      break;
+   case ABOUT:
+      state = MENU;
+      break;
+   case SORT_PLAYER:
+      sortPlayer();
+      break;
+   case SHOW_PLAYERS:
       state = PLAYING;
       break;
    case PLAYING:
-      performAction();
+      performPlayerAction();
       break;
    case ROLLING:
       state = PLAYING;
@@ -96,8 +135,17 @@ void GameController::update() {
 // Render the UI
 void GameController::render() const {
    switch (state) {
-   case WELCOME:
+   case MENU:
       showMenu();
+      break;
+   case CREATE_PLAYERS:
+      showCreatePlayer();
+      break;
+   case ABOUT:
+      showAbout();
+      break;
+   case SHOW_PLAYERS:
+      showPlayers();
       break;
    case PLAYING:
       showCommands();
@@ -132,9 +180,40 @@ void GameController::pressEnter() {
    std::getline(std::cin, buffer);
 }
 
+// Get the menu action
+void GameController::getMenuAction() {
+   std::string action_;
+
+   std::getline(std::cin, action_);
+
+   action_ = std::tolower(*action_.begin());
+
+   if (action_ == KEY_ABOUT) {
+      action = INFORMATION;
+   } else if (action_ == KEY_QUIT) {
+      action = QUIT;
+   } else {
+      action = SELECT;
+   }
+}
+
+// Get player name
+void GameController::getPlayer() {
+   std::string player_name;
+
+   std::getline(std::cin, player_name);
+
+   if (player_name.empty()) {
+      action = PLAY;
+   } else {
+      buffer_name = player_name;
+      action = CREATE;
+   }
+}
+
 // Defines the player and move
 void GameController::getPlay() {
-   if (current_player == &players[HUMAN]) {
+   if (current_player->getType() == HUMAN) {
       getHumanAction();
    } else {
       getMachineAction();
@@ -160,7 +239,7 @@ void GameController::getHumanAction() {
 
 // Receives input from the machine
 void GameController::getMachineAction() {
-   bool roll { decideRoll(players[MACHINE], players[HUMAN]) };
+   bool roll { decideRoll(current_player, players, number_of_players) };
 
    if (roll) {
       action = ROLL;
@@ -170,7 +249,7 @@ void GameController::getMachineAction() {
 }
 
 // Receive confirmation of departure
-void GameController::confirmQuiting() {
+void GameController::confirmQuitting() {
    std::string confirm;
 
    std::getline(std::cin, confirm);
@@ -182,8 +261,60 @@ void GameController::confirmQuiting() {
    }
 }
 
+// Sort first player
+void GameController::sortPlayer() {
+   int sorted_player { utils::rand(number_of_players) };
+
+   current_player = &players[sorted_player];
+
+   state = SHOW_PLAYERS;
+}
+
+// Performs the action in menu
+void GameController::performMenuAction() {
+   switch (action) {
+      case SELECT:
+         state = CREATE_PLAYERS;
+         break;
+      case INFORMATION:
+         state = ABOUT;
+         break;
+      case QUIT:
+         state = QUITTING;
+         last_state = MENU;
+         break;
+      default:
+         break;
+   }
+}
+
+// Create players
+void GameController::createPlayer() {
+   if (buffer_name.length() > COLUMN_SIZE) {
+      buffer_name.resize(COLUMN_SIZE);
+   }
+   
+   if (action == CREATE) {
+      if (buffer_name == SELECT_MACHINE) {
+         players[number_of_players] = Player(MACHINE, default_names[number_of_players]);
+      } else {
+         players[number_of_players] = Player(HUMAN, buffer_name);
+      }
+
+      ++number_of_players;
+   }
+
+   if ((number_of_players >= DEFAULT_NUMBERS_OF_PLAYERS && action == PLAY) ||
+      number_of_players == MAXIMUM_NUMBER_OF_PLAYERS) 
+   {
+      state = SORT_PLAYER;
+   } else {
+      state = CREATE_PLAYERS;
+   }
+}
+
 // Performs the action and modifies the situation
-void GameController::performAction() {
+void GameController::performPlayerAction() {
    switch (action) {
    case ROLL:
       rollingDice();
@@ -193,6 +324,7 @@ void GameController::performAction() {
       break;
    case QUIT:
       state = QUITTING;
+      last_state = PLAYING;
       break;
    default:
       break;
@@ -245,10 +377,12 @@ void GameController::checkWinner() {
 
 // Change current player
 void GameController::switchPlayer() {
-   if (current_player == &players[HUMAN]) {
-      current_player = &players[MACHINE];
-   } else {
-      current_player = &players[HUMAN];
+   Player* last_player { &players[number_of_players - 1] };
+
+   ++current_player;
+
+   if (current_player > last_player) {
+      current_player = players;
    }
 }
 
@@ -257,37 +391,80 @@ void GameController::verifyEnding() {
    if (action == END) {
       state = ENDING;
    } else {
-      state = PLAYING;
+      state = last_state;
    }
 }
 
 // Show main menu
 void GameController::showMenu() const {
-   cout << "\t\t---> Welcome to the Pig Dice Game (v 1.0) <---\n";
-   cout << "\t\t\t-copyright DIMAp/UFRN 2023-\n\n";
+   cout << "\n\t---> Welcome to the Pig Dice Game (v 1.0) <---\n";
+   cout << "\t\t-copyright DIMAp/UFRN 2023-\n\n\n";
 
-   cout << "The object of the jeopardy dice game Pig is to be the first "
+   cout << "1. Play\n";
+   cout << "2. About\n";
+   cout << "Q. Quit\n";
+
+   cout << "\n > Select an option: ";
+}
+
+// Show create player section
+void GameController::showCreatePlayer() const {
+   cout << "\n-------------------------------------------------------\n";
+
+   cout << "\nCreate " << number_of_players + 1 << "° player:\n";
+   cout << "\tHuman player - Enter name (cannot \"Machine\")\n";
+   cout << "\tMachine player - Enter with Machine (the name is automatic)\n";
+   cout << "\tEnd - Press <enter>\n";
+
+   cout << "\n > Write here: ";
+}
+
+// Show about section
+void GameController::showAbout() const {
+   cout << "\n-------------------------------------------------------\n";
+
+   cout << "About the game: \n";
+   cout << "\tThe object of the jeopardy dice game Pig is to be the first "
         << "player to reach 100 points.\n";
-   cout << "Each player's turn consists of repeatedly rolling a die. After "
+   cout << "\tEach player's turn consists of repeatedly rolling a die. After "
         << "each roll, the player is faced with two choices: roll again, or "
         << "hold (decline to roll again).\n";
 
-   cout << "\t• If the player rolls a 1, the player scores nothing and it "
+   cout << "\t\t• If the player rolls a 1, the player scores nothing and it "
         << "becomes the opponent's turn.\n";
    cout
-       << "\t• If the player rolls a number other than 1, the number is "
+       << "\t\t• If the player rolls a number other than 1, the number is "
        << "added to the player's turn total and the player's turn continues.\n";
    cout
-       << "\t• If the player holds, the turn total, the sum of the rolls "
+       << "\t\t• If the player holds, the turn total, the sum of the rolls "
        << "during the turn, is added to the player's score, and it becomes the "
        << "opponent's turn.\n\n";
 
-   cout << ">>> The players of the game are: \"" << players[HUMAN].getName()
-        << "\" & \"" << players[MACHINE].getName() << "\".\n\n";
-   cout << ">>> The player who will start the game is \""
-        << current_player->getName() << "\".\n";
+   cout << "Motivation:\n";
+   cout << "\tThe present software was developed for the submission of "
+        << "assignments for the Programming I course at the Federal University "
+        << "of Rio Grande do Norte.\n\n";
 
-   cout << "\tPress <Enter> to start the match.";
+   cout << "About the development:\n";
+   cout << "\tDeveloper: Pedro Lucas\n";
+   cout << "\tE-mail: pedrolucas.jsrn@gmail.com\n";
+   cout << "\tGithub: PedroLucas63\n\n";
+
+   cout << "\tPress <Enter> to return.";
+}
+
+// Show players
+void GameController::showPlayers() const {
+   cout << "\n>>> The players of the game are: ";
+
+   for (size_t index { 0 }; index < number_of_players; index++) {
+      std::string separator = index + 2 == number_of_players ? " & " : 
+         index + 1 == number_of_players ? "" : ", ";
+
+      cout << players[index].getName() << separator;
+   }
+   cout << "\n\n>>> The player who will start the game is \""
+        << current_player->getName() << "\".\n";
 }
 
 // Show commands
@@ -320,15 +497,18 @@ void GameController::showTurnTotal() const {
 // Show total score
 void GameController::showScores() const {
    char const separator { ' ' };
-   cout << std::setfill(separator);
 
    cout << "\n┌───────────────────────┐\n";
    cout << "│      Score Board      │\n";
    cout << "├───────────┬───────────┤\n";
-   cout << "│" << std::setw(COLUMN_SIZE) << players[HUMAN].getName() << "│"
-        << std::setw(COLUMN_SIZE) << players[HUMAN].getScore() << "│\n";
-   cout << "│" << std::setw(COLUMN_SIZE) << players[MACHINE].getName() << "│"
-        << std::setw(COLUMN_SIZE) << players[MACHINE].getScore() << "│\n";
+
+   for (size_t index { 0 }; index < number_of_players; index++) {
+      cout << std::setfill(separator);
+
+      cout << "│" << std::setw(COLUMN_SIZE) << players[index].getName() << "│"
+        << std::setw(COLUMN_SIZE) << players[index].getScore() << "│\n";
+   }
+
    cout << "└───────────┴───────────┘\n";
 
    cout << ">>> Press enter to continue...";
@@ -349,18 +529,13 @@ void GameController::showWinner() const {
 void GameController::showLogs() const {
    cout << "[[ LOG of ACTIONS during the game ]]\n\n";
 
-   cout << "Decisions taken by player \"" << players[HUMAN].getName()
+   for (size_t index { 0 }; index < number_of_players; index++) {
+      cout << "\nDecisions taken by player \"" << players[index].getName()
         << "\":\n";
 
-   for (utils::RoundLog round : *players[HUMAN].getLogs()) {
-      cout << round.turns << " dice rolls produced " << round.score << "\n";
-   }
-
-   cout << "\nDecisions taken by player \"" << players[MACHINE].getName()
-        << "\":\n";
-
-   for (utils::RoundLog round : *players[MACHINE].getLogs()) {
-      cout << round.turns << " dice rolls produced " << round.score << "\n";
+      for (utils::RoundLog round : *players[index].getLogs()) {
+         cout << round.turns << " dice rolls produced " << round.score << "\n";
+      }
    }
 }
 

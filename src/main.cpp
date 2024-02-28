@@ -34,23 +34,10 @@
 #include "game_controller.hpp"
 #include <string>
 
-#define ARGUMENTS_WITH_NAME 2 /**< Number of arguments if past name */
-#define NAME_INDEX 1          /**< Name position index */
-#define MAX_NAME_LENGHT 11    /**< Max name length */
-
-/**
- * @brief Returns the name if it exists
- *
- * @param argc Arguments count
- * @param argv Arguments values
- * @return Name
- */
-std::string processName(int argc, char *argv[]);
-
 int main(int argc, char *argv[]) {
    GameController game;
 
-   game.initialize(processName(argc, argv));
+   game.initialize();
 
    while (!game.gameOver()) {
       game.processEvents();
@@ -59,19 +46,4 @@ int main(int argc, char *argv[]) {
    }
 
    return EXIT_SUCCESS;
-}
-
-// Process name
-std::string processName(int argc, char *argv[]) {
-   std::string name;
-
-   if (argc == ARGUMENTS_WITH_NAME) {
-      name = argv[NAME_INDEX];
-   }
-
-   if (name.length() > MAX_NAME_LENGHT) {
-      name.resize(MAX_NAME_LENGHT);
-   }
-
-   return name;
 }

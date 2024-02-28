@@ -21,14 +21,18 @@ using utils::MACHINE;
 #include <iostream>
 using std::cout;
 
-#define WINNERS_SCORE 100    /**< Score to win */
-#define NUMBERS_OF_PLAYERS 2 /**< Number of players */
-#define COLUMN_SIZE 11       /**< Table column size */
-#define PIG_DICE 1           /**< Pig number on the dice */
-#define KEY_ROLL "r"         /**< Roll key */
-#define KEY_HOLD "h"         /**< Hold key */
-#define KEY_QUIT "q"         /**< Quit key */
-#define KEY_CONFIRM "y"      /**< Confirm key */
+#define WINNERS_SCORE 100              /**< Score to win */
+#define DEFAULT_NUMBERS_OF_PLAYERS 2   /**< Default number of players */
+#define MAXIMUM_NUMBER_OF_PLAYERS 5    /**< Maximum number of players */
+#define SELECT_MACHINE "Machine"       /**< Name to select a machine player */
+#define COLUMN_SIZE 11                 /**< Table column size */
+#define PIG_DICE 1                     /**< Pig number on the dice */
+#define KEY_SELECT_PLAYERS "1"         /**< Select players key */
+#define KEY_ABOUT "2"                  /**< About key */
+#define KEY_QUIT "q"                   /**< Quit key */
+#define KEY_ROLL "r"                   /**< Roll key */
+#define KEY_HOLD "h"                   /**< Hold key */
+#define KEY_CONFIRM "y"                /**< Confirm key */
 
 /**
  * @brief Definition of player class
@@ -42,7 +46,11 @@ class GameController {
     */
    enum GameState {
       STARTING,
-      WELCOME,
+      MENU,
+      CREATE_PLAYERS,
+      ABOUT,
+      SORT_PLAYER,
+      SHOW_PLAYERS,
       PLAYING,
       ROLLING,
       HOLDING,
@@ -57,6 +65,10 @@ class GameController {
     *
     */
    enum Action {
+      SELECT,
+      INFORMATION,
+      CREATE,
+      PLAY,
       ROLL,
       HOLD,
       QUIT,
@@ -65,13 +77,17 @@ class GameController {
    };
 
    /* Definition of attributes */
-   Dice dice;                          /**< Dice */
-   Player players[NUMBERS_OF_PLAYERS]; /**< Players */
-   Player *current_player;             /**< Pointer to current player */
-   Player *winner;                     /**< Pointer to winner */
-   utils::RoundLog round_log;          /**< Round log */
-   GameState state;                    /**< Game state */
-   Action action;                      /**< Player action */
+   Dice dice;                                /**< Dice */
+   size_t number_of_players;                 /**< Number of players */
+   Player players[MAXIMUM_NUMBER_OF_PLAYERS]; /**< Players */
+   std::string buffer_name;                  /**< Buffer name */
+   Player *current_player;                   /**< Pointer to current player */
+   Player *winner;                           /**< Pointer to winner */
+   utils::RoundLog round_log;                /**< Round log */
+   GameState state;                          /**< Game state */
+   GameState last_state;                     /**< Last state */
+   Action action;                            /**< Player action */
+
 
    /* Definition of private methods */
    /**
@@ -79,6 +95,18 @@ class GameController {
     *
     */
    void pressEnter();
+
+   /**
+    * @brief Get the menu action
+    * 
+    */
+   void getMenuAction();
+
+   /**
+    * @brief Receives the data for creating a player
+    * 
+    */
+   void getPlayer();
 
    /**
     * @brief Manages who performs the move and saves the data
@@ -102,13 +130,31 @@ class GameController {
     * @brief Receive quitting confirmation
     *
     */
-   void confirmQuiting();
+   void confirmQuitting();
+
+   /**
+    * @brief Sort first player
+    * 
+    */
+   void sortPlayer();
+
+   /**
+    * @brief Checks which menu action was performed
+    * 
+    */
+   void performMenuAction();
+
+   /**
+    * @brief Create the player and update the state
+    * 
+    */
+   void createPlayer();
 
    /**
     * @brief Check what the player's action is and change the game state
     *
     */
-   void performAction();
+   void performPlayerAction();
 
    /**
     * @brief Rolls the dice and manages state and records
@@ -147,10 +193,29 @@ class GameController {
    void verifyEnding();
 
    /**
-    * @brief Displays the main menu
-    *
+    * @brief Displays main menu
+    * 
     */
    void showMenu() const;
+
+   /**
+    * @brief Displays the player creation information menu
+    * 
+    */
+   void showCreatePlayer() const;
+
+   /**
+    * @brief Displays about section
+    * 
+    */
+   void showAbout() const;
+
+
+   /**
+    * @brief Displays players and first player
+    * 
+    */
+   void showPlayers() const;
 
    /**
     * @brief Displays input commands
@@ -208,11 +273,10 @@ class GameController {
    ~GameController();
 
    /**
-    * @brief Initialize the GameController with the player's name
+    * @brief Initialize the GameController
     *
-    * @param player_name Player's name
     */
-   void initialize(std::string player_name);
+   void initialize();
 
    /**
     * @brief Returns if the game is over

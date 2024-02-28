@@ -11,8 +11,9 @@
 
 #include "player.hpp"
 
-// Constructor with name
-Player::Player(std::string name_) {
+// Constructor with type and name
+Player::Player(utils::PlayerType type_, std::string name_) {
+   type = type_;
    setName(name_);
    turn_score = DEFAULT_SCORE;
    score = DEFAULT_SCORE;
@@ -20,6 +21,11 @@ Player::Player(std::string name_) {
 
 // Destructor
 Player::~Player() { }
+
+// Get player type
+utils::PlayerType Player::getType() const {
+   return type;
+}
 
 // Get player name
 std::string Player::getName() const {
